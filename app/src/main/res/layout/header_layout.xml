@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:background="@color/purple"
-    android:padding="8dp"
+    android:padding="6dp"
     android:orientation="vertical"
     android:gravity="bottom"
     >
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/logoText"
         android:layout_width="178dp"
         android:layout_height="45dp"
         android:fontFamily="sans-serif"
@@ -27,13 +27,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.538" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="96dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/menuButton"-->
+<!--        android:layout_width="96dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:text="@string/menu"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

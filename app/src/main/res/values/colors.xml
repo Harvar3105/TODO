@@ -7,4 +7,6 @@
     <color name="blue">#0000ff</color>
     <color name="green">#008000</color>
     <color name="lime">#C3FFE7</color>
+    <color name="grey">#686868</color>
+    <color name="notSoWhite">#EAE8E8</color>
 </resources>
