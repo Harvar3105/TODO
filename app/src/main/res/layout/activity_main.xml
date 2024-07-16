@@ -8,27 +8,6 @@
     android:background="@color/lime"
     tools:context=".MainActivity">
 
-<!--    <Button-->
-<!--        android:id="@+id/testButton"-->
-<!--        android:layout_width="144dp"-->
-<!--        android:layout_height="84dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:layout_marginBottom="80dp"-->
-<!--        android:text="Button"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent" />-->
-
-    <ListView
-        android:id="@+id/container"
-        android:layout_width="405dp"
-        android:layout_height="588dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navigationView"
-        app:layout_constraintVertical_bias="0.0">
-
-    </ListView>
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="match_parent"
@@ -36,6 +15,8 @@
         app:headerLayout="@layout/header_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -47,11 +28,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu"/>
 
-    <!--    <androidx.drawerlayout.widget.DrawerLayout-->
-<!--        android:layout_width="300dp"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:id="@+id/navigationMenu"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/navigationView" />-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="587dp"
+        android:id="@+id/frameLayoutMain"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/navigationView">
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

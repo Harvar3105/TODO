@@ -10,7 +10,7 @@ import java.util.UUID
 class DAO(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, "todo-app", factory, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
-        val query = "CREATE TABLE todo (id TEXT PRIMARY KEY, name TEXT, description TEXT, date TEXT, isCompleted BOOLEAN)"
+        val query = "CREATE TABLE todo (id TEXT PRIMARY KEY, name TEXT, description TEXT, date TEXT, creationDate TEXT, isCompleted BOOLEAN)"
         db!!.execSQL(query)
     }
 
@@ -44,9 +44,10 @@ class DAO(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
             val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
             val description = cursor.getString(cursor.getColumnIndexOrThrow("description"))
             val date = Date(cursor.getString(cursor.getColumnIndexOrThrow("date")))
+            val creationDate = Date(cursor.getString(cursor.getColumnIndexOrThrow("creationDate")))
             val isCompleted = cursor.getInt(cursor.getColumnIndexOrThrow("isCompleted")) == 1
 
-            val todo = Todo(id, name, description, date, isCompleted)
+            val todo = Todo(id, name, description, date, creationDate, isCompleted)
             result.add(todo)
         } while (cursor.moveToNext())
 

@@ -7,6 +7,7 @@ class Todo(
     val id: UUID? = UUID.randomUUID(),
     val name: String? = null,
     val description: String? = null,
+    val creationDate: Date = Date(),
     val date: Date = Date(),
     val isCompleted: Boolean = false
 ) {
