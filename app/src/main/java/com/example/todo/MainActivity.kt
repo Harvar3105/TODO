@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var frameLayout: FrameLayout
-    private lateinit var db: RoomDB
+    private lateinit var db: DataBase
     private lateinit var BNV: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
     private lateinit var bundle: Bundle
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        db = RoomDB.getDB(this, "mainDb")
+        db = DataBase.getDB(this, "mainDb")
         bundle = Bundle()
         db.getDAO().getAllItems().asLiveData().observe(this, Observer {
             val dtos = it.map { elem -> TodoDTO.toDTO(elem) }
