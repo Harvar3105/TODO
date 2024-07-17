@@ -1,31 +1,30 @@
 package com.example.todo
 
-import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ListView
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
+import com.example.todo.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.zip.Inflater
 
 class MainActivity : AppCompatActivity() {
     private lateinit var frameLayout: FrameLayout
-    private lateinit var db: DAO
+    private lateinit var db: RoomDB
     private lateinit var BNV: BottomNavigationView
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var bundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        frameLayout = findViewById(R.id.frameLayoutMain)
-        BNV = findViewById(R.id.bottomNavigationView)
+        frameLayout = binding.frameLayoutMain
+        BNV = binding.bottomNavigationView
         BNV.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeButton -> {
@@ -44,13 +43,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        db = DAO(this, null)
-    }
-
-    private fun createListFragment(): ListFragment {
-        val bundle = Bundle()
-        bundle.putParcelable(db)
-        return ListFragment.newInstance(args = bundle)
+        db = RoomDB.getDB(this, "mainDb")
+        bundle = Bundle()
+        db.getDAO().getAllItems().asLiveData().observe(this, Observer {
+            val dtos = it.map { elem -> TodoDTO.toDTO(elem) }
+            bundle.putParcelableArrayList("items", ArrayList(dtos))
+        })
     }
 
     private fun replaceFragment(fragment: Fragment) {

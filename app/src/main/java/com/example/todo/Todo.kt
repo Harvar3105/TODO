@@ -1,15 +1,19 @@
 package com.example.todo
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.Date
 import java.util.UUID
 
-class Todo(
-    val id: UUID? = UUID.randomUUID(),
-    val name: String? = null,
-    val description: String? = null,
-    val creationDate: Date = Date(),
-    val date: Date = Date(),
-    val isCompleted: Boolean = false
+@Entity (tableName = "Items")
+data class Todo(
+    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    @ColumnInfo(name = "name") val name: String? = null,
+    @ColumnInfo(name = "description") val description: String? = null,
+    @ColumnInfo(name = "creationDate") val creationDate: Date? = null,
+    @ColumnInfo(name = "Date") val date: Date? = null,
+    @ColumnInfo(name = "isCompleted") val isCompleted: Boolean = false
 ) {
 
     @Override
