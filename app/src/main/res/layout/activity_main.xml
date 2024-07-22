@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="587dp"
         android:id="@+id/frameLayoutMain"
+        android:layout_gravity="bottom"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

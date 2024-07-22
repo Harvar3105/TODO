@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
     private lateinit var frameLayout: FrameLayout
     private lateinit var db: DataBase
-    private lateinit var BNV: BottomNavigationView
+    private lateinit var bnv: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
     private lateinit var bundle: Bundle
 
@@ -23,9 +23,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val item: TodoDTO? = intent.getParcelableExtra("ItemToAdd")
+        if (item != null) {
+            saveToDB(item)
+            intent.removeExtra("ItemToAdd")
+        }
+
         frameLayout = binding.frameLayoutMain
-        BNV = binding.bottomNavigationView
-        BNV.setOnItemSelectedListener { item ->
+        bnv = binding.bottomNavigationView
+        bnv.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeButton -> {
                     replaceFragment(ListFragment())
@@ -49,6 +55,11 @@ class MainActivity : AppCompatActivity() {
             val dtos = it.map { elem -> TodoDTO.toDTO(elem) }
             bundle.putParcelableArrayList("items", ArrayList(dtos))
         })
+    }
+
+    private fun saveToDB(item: TodoDTO){
+        db.getDAO().insertItem(TodoDTO.fromDTO(item))
+        db.close()
     }
 
     private fun replaceFragment(fragment: Fragment) {

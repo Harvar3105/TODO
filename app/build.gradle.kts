@@ -45,13 +45,8 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.3")
 
-//    implementation("androidx.room:room-runtime:2.6.1")
-//    annotationProcessor("androidx.room:room-compiler:2.6.1")
-//
-//    // To use Kotlin annotation processing tool (kapt)
-//    kapt("androidx.room:room-compiler:2.6.1")
-//    // To use Kotlin Symbol Processing (KSP)
-//    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")

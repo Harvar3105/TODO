@@ -3,6 +3,7 @@ package com.example.todo
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDateTime
 import java.util.Date
 import java.util.UUID
 
@@ -11,8 +12,8 @@ data class Todo(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
     @ColumnInfo(name = "name") val name: String? = null,
     @ColumnInfo(name = "description") val description: String? = null,
-    @ColumnInfo(name = "creationDate") val creationDate: Date? = null,
-    @ColumnInfo(name = "Date") val date: Date? = null,
+    @ColumnInfo(name = "creationDate") val creationDate: LocalDateTime? = null,
+    @ColumnInfo(name = "Date") val date: LocalDateTime? = null,
     @ColumnInfo(name = "isCompleted") val isCompleted: Boolean = false
 ) {
 

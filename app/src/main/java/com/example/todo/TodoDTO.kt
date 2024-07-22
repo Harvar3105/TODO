@@ -2,6 +2,8 @@ package com.example.todo
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 import java.util.Date
 import java.util.UUID
@@ -10,8 +12,8 @@ class TodoDTO(
     var id: Long? = null,
     var name: String? = null,
     var description: String? = null,
-    var creationDate: Date? = null,
-    var date: Date? = null,
+    var creationDate: LocalDateTime? = null,
+    var date: LocalDateTime? = null,
     var isCompleted: Boolean = false
 ) : Parcelable {
 
@@ -19,8 +21,12 @@ class TodoDTO(
         id = parcel.readLong()
         name = parcel.readString()
         description = parcel.readString()
-        creationDate = Date(parcel.readLong())
-        date = Date(parcel.readLong())
+        creationDate = parcel.readLong().let {
+            if (it != -1L) LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC) else null
+        }
+        date = parcel.readLong().let {
+            if (it != -1L) LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC) else null
+        }
         isCompleted = parcel.readByte() != 0.toByte()
     }
 
@@ -28,8 +34,8 @@ class TodoDTO(
         parcel.writeSerializable(id)
         parcel.writeString(name)
         parcel.writeString(description)
-        parcel.writeLong(creationDate?.time ?: 0)
-        parcel.writeLong(date?.time ?: 0)
+        parcel.writeLong(creationDate?.toEpochSecond(ZoneOffset.UTC) ?: -1L)
+        parcel.writeLong(date?.toEpochSecond(ZoneOffset.UTC) ?: -1L)
         parcel.writeByte(if (isCompleted) 1 else 0)
     }
 
@@ -40,6 +46,7 @@ class TodoDTO(
     override fun toString(): String {
         return "$name: $description"
     }
+
 
     companion object CREATOR : Parcelable.Creator<TodoDTO> {
         override fun createFromParcel(parcel: Parcel): TodoDTO {

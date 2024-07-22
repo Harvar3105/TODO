@@ -2,4 +2,8 @@
 <resources>
     <string name="settings">Настройки</string>
     <string name="menu">Меню</string>
+    <string name="save">Сохранить</string>
+    <string name="name">Название</string>
+    <string name="description">Описание</string>
+    <string name="select_date_time">Выберите дату и время</string>
 </resources>

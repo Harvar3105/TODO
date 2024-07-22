@@ -6,14 +6,27 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database (entities = [Todo::class], version = 1)
+@Database (entities = [Todo::class], version = 2)
 @TypeConverters(DbConverter::class)
 abstract class DataBase : RoomDatabase() {
     abstract fun getDAO(): DAO
 
     companion object {
-        fun getDB(ctx: Context, name: String) : DataBase {
-            return Room.databaseBuilder(ctx.applicationContext, DataBase::class.java, name).build()
+        private var INSTANCE: DataBase? = null
+
+        fun getDB(context: Context, dbName: String): DataBase {
+            if (INSTANCE == null) {
+                synchronized(DataBase::class) {
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        DataBase::class.java,
+                        dbName
+                    )
+                        .fallbackToDestructiveMigration() //Destroy previous version. Causes data loss
+                        .build()
+                }
+            }
+            return INSTANCE!!
         }
     }
 }
