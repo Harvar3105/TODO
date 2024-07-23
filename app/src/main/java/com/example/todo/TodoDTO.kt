@@ -21,21 +21,25 @@ class TodoDTO(
         id = parcel.readLong()
         name = parcel.readString()
         description = parcel.readString()
-        creationDate = parcel.readLong().let {
-            if (it != -1L) LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC) else null
-        }
-        date = parcel.readLong().let {
-            if (it != -1L) LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC) else null
-        }
+        creationDate = LocalDateTime.parse(parcel.readString())
+        date = LocalDateTime.parse(parcel.readString())
+//        creationDate = parcel.readLong().takeIf { it != -1L }?.let {
+//            LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC)
+//        }
+//        date = parcel.readLong().takeIf { it != -1L }?.let {
+//            LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC)
+//        }
         isCompleted = parcel.readByte() != 0.toByte()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeSerializable(id)
+        if (id == null) parcel.writeLong(0) else parcel.writeLong(id!!)
         parcel.writeString(name)
         parcel.writeString(description)
-        parcel.writeLong(creationDate?.toEpochSecond(ZoneOffset.UTC) ?: -1L)
-        parcel.writeLong(date?.toEpochSecond(ZoneOffset.UTC) ?: -1L)
+        parcel.writeString(creationDate.toString())
+        parcel.writeString(date.toString())
+//        parcel.writeLong(creationDate?.toEpochSecond(ZoneOffset.UTC) ?: -1L)
+//        parcel.writeLong(date?.toEpochSecond(ZoneOffset.UTC) ?: -1L)
         parcel.writeByte(if (isCompleted) 1 else 0)
     }
 

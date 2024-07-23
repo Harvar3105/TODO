@@ -22,7 +22,7 @@ abstract class DataBase : RoomDatabase() {
                         DataBase::class.java,
                         dbName
                     )
-                        .fallbackToDestructiveMigration() //Destroy previous version. Causes data loss
+                        .fallbackToDestructiveMigration()
                         .build()
                 }
             }

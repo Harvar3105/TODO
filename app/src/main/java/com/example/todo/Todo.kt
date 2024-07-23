@@ -9,7 +9,7 @@ import java.util.UUID
 
 @Entity (tableName = "Items")
 data class Todo(
-    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    @PrimaryKey(autoGenerate = true) var id: Long? = null,
     @ColumnInfo(name = "name") val name: String? = null,
     @ColumnInfo(name = "description") val description: String? = null,
     @ColumnInfo(name = "creationDate") val creationDate: LocalDateTime? = null,

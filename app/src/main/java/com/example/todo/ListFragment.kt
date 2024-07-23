@@ -2,6 +2,7 @@ package com.example.todo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,12 +36,14 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.arguments?.getParcelableArrayList("items", TodoDTO::class.java)
-            ?.let { todos.addAll(it) }
+        val items = arguments?.getParcelableArrayList<TodoDTO>("items") ?: ArrayList()
+        items.let { todos.addAll(items) }
+
+        Log.i("list", "argumants contain: $items")
+        Log.i("list", "todos contain: $todos")
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, todos)
         binding.container.adapter = adapter
