@@ -7,6 +7,7 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.todo.databinding.FragmentAddBinding
 import com.example.todo.databinding.FragmentListBinding
 import java.text.SimpleDateFormat
@@ -25,11 +27,9 @@ import java.util.Locale
 
 class AddFragment : Fragment() {
 
+    private val addViewModel: AddViewModel by viewModels { ViewModelFactory((requireActivity().application as MyApp).database) }
+
     private lateinit var binding: FragmentAddBinding
-    private lateinit var dateTimeText: EditText
-    private lateinit var name: EditText
-    private lateinit var description: EditText
-    private lateinit var saveButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,6 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentAddBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,33 +46,31 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dateTimeText = binding.dateTime
-        dateTimeText.inputType = InputType.TYPE_NULL
-        dateTimeText.setOnClickListener { showDateTimeDialog(dateTimeText) }
+        binding.dateTime.inputType = InputType.TYPE_NULL
+        binding.dateTime.setOnClickListener { showDateTimeDialog(binding.dateTime) }
 
-        name = binding.name
-        description = binding.description
-
-        saveButton = binding.saveButton
-        saveButton.setOnClickListener { saveItem() }
-
+        binding.saveButton.setOnClickListener { saveItem() }
     }
 
-    private fun saveItem(){
-        if (!name.text.any() || name.text == null) return
-        if (!description.text.any() || description.text == null) return
-        if (!dateTimeText.text.any() || dateTimeText.text == null) return
+    private fun saveItem() {
+        if (binding.name.text.toString() == "" || binding.description.text.toString() == "" ||
+            binding.dateTime.text.toString() == "") return
 
-        var dto: TodoDTO = TodoDTO(
-            name = name.text.toString(),
-            description = description.text.toString(),
-            creationDate = LocalDateTime.now(),
-            date = LocalDateTime.parse(dateTimeText.text.toString(), DateTimeFormatter.ofPattern("yy-MM-dd HH:mm")),
-            isCompleted = false
-        )
+        val name = binding.name.text.toString()
+        val description = binding.description.text.toString()
+        val date = LocalDateTime.parse(binding.dateTime.text.toString(), DateTimeFormatter.ofPattern("yy-MM-dd HH:mm"))
 
-        val intent = Intent(this.context, MainActivity::class.java).apply { putExtra("ItemToAdd", dto) }
-        startActivity(intent)
+        if (name.isNotEmpty() && description.isNotEmpty() && binding.dateTime.text.isNotEmpty()) {
+            val item = TodoDTO(
+                name = name,
+                description = description,
+                creationDate = LocalDateTime.now(),
+                date = date,
+                isCompleted = false
+            )
+            addViewModel.saveToDB(item)
+        }
+        activity?.supportFragmentManager?.popBackStack()
     }
 
     private fun showDateTimeDialog(date_time_in: EditText) {

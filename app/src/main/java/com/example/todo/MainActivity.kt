@@ -17,30 +17,20 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var frameLayout: FrameLayout
-    private lateinit var db: DataBase
     private lateinit var bnv: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
-    private lateinit var bundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        db = DataBase.getDB(this, "mainDb")
-        val item: TodoDTO? = intent.getParcelableExtra("ItemToAdd")
-        if (item != null) {
-            saveToDB(item)
-            intent.removeExtra("ItemToAdd")
-        }
-
         frameLayout = binding.frameLayoutMain
         bnv = binding.bottomNavigationView
         bnv.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeButton -> {
-                    refreshData()
-                    replaceFragment(ListFragment.newInstance(bundle))
+                    replaceFragment(ListFragment())
                     true
                 }
                 R.id.addButton -> {
@@ -54,28 +44,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        refreshData()
-    }
-
-    private fun refreshData(){
-        bundle = Bundle()
-        db.getDAO().getAllItems().asLiveData().observe(this, Observer {
-            val dtos = it.map { elem -> TodoDTO.toDTO(elem) }
-            Log.i("list", "Data from db: $dtos")
-            bundle.putParcelableArrayList("items", ArrayList(dtos))
-        })
-    }
-
-    private fun saveToDB(item: TodoDTO){
-        CoroutineScope(Dispatchers.IO).launch {
-            if (!::db.isInitialized) {
-                db = DataBase.getDB(this@MainActivity, "mainDb")
-            }
-            var item = TodoDTO.fromDTO(item)
-            if (item.id == 0L) item.id = null
-            db.getDAO().insertItem(item)
-        }
+        replaceFragment(ListFragment())
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -83,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 
         fragmentTransaction.replace(R.id.frameLayoutMain, fragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+        fragmentManager.executePendingTransactions()
     }
 }
