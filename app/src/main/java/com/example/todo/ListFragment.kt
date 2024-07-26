@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.todo.databinding.FragmentListBinding
+import java.time.LocalDateTime
 
 class ListFragment : Fragment() {
 
@@ -38,7 +39,13 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, mutableListOf<TodoDTO>())
+        val adapter = ListAdapter(
+            requireContext(),
+            mutableListOf(),
+            { todo -> update(todo) },
+            { todo -> delete(todo) },
+            LocalDateTime.now()
+        )
         binding.container.adapter = adapter
 
         listViewModel.loadTodos()
@@ -48,6 +55,14 @@ class ListFragment : Fragment() {
             adapter.addAll(todos)
             adapter.notifyDataSetChanged()
         })
+    }
+
+    private fun update(todo: TodoDTO){
+        listViewModel.updateTodo(todo)
+    }
+
+    private fun delete(todo: TodoDTO){
+        listViewModel.deleteTodo(todo)
     }
 
     override fun onDestroyView() {

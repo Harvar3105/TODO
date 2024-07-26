@@ -30,7 +30,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="587dp"
+        android:layout_height="0dp"
         android:id="@+id/frameLayoutMain"
         android:layout_gravity="bottom"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
