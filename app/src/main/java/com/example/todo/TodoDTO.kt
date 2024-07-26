@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 import java.util.Date
 import java.util.UUID
@@ -48,7 +49,15 @@ class TodoDTO(
     }
 
     override fun toString(): String {
-        return "$name: $description"
+        if (isCompleted){
+            return "\n\tCompleted: $name, $description. \n\nDate created: ${creationDate?.format(
+                DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm"))} \nDate estimated: ${date?.format(
+                DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm"))}"
+        } else {
+            return "\n\tNot Completed: $name, $description. \n\nDate created: ${creationDate?.format(
+                DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm"))} \nDate estimated: ${date?.format(
+                DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm"))}"
+        }
     }
 
 

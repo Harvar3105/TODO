@@ -71,6 +71,7 @@ class AddFragment : Fragment() {
             addViewModel.saveToDB(item)
         }
         activity?.supportFragmentManager?.popBackStack()
+        activity?.supportFragmentManager?.clearBackStack("Clear after adding new")
     }
 
     private fun showDateTimeDialog(date_time_in: EditText) {
