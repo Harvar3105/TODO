@@ -17,4 +17,12 @@ class AddViewModel(private val db: DataBase) : ViewModel() {
             }
         }
     }
+
+    fun updateItem(item: TodoDTO){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                db.getDAO().update(TodoDTO.fromDTO(item))
+            }
+        }
+    }
 }

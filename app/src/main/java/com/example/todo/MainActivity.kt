@@ -47,6 +47,12 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(ListFragment())
     }
 
+    public fun switchToEdit(item: TodoDTO){
+        val fragment = AddFragment()
+        replaceFragment(fragment)
+        fragment.fillData(item)
+    }
+
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()

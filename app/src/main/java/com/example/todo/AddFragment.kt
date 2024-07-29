@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.text.set
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.todo.databinding.FragmentAddBinding
@@ -52,6 +54,13 @@ class AddFragment : Fragment() {
         binding.saveButton.setOnClickListener { saveItem() }
     }
 
+    public fun fillData(item: TodoDTO) {
+        binding.name.setText(item.name)
+        binding.description.setText(item.description)
+        binding.dateTime.setText(item.date?.format(DateTimeFormatter.ofPattern("yy-MM-dd HH:mm")))
+        binding.saveButton.tag = item
+    }
+
     private fun saveItem() {
         if (binding.name.text.toString() == "" || binding.description.text.toString() == "" ||
             binding.dateTime.text.toString() == "") return
@@ -60,7 +69,15 @@ class AddFragment : Fragment() {
         val description = binding.description.text.toString()
         val date = LocalDateTime.parse(binding.dateTime.text.toString(), DateTimeFormatter.ofPattern("yy-MM-dd HH:mm"))
 
-        if (name.isNotEmpty() && description.isNotEmpty() && binding.dateTime.text.isNotEmpty()) {
+        if (binding.saveButton.tag != null){
+            val item = binding.saveButton.tag as TodoDTO
+            item.name = name
+            item.description = description
+            item.date = date
+            item.isCompleted = false
+            binding.saveButton.tag = null
+            addViewModel.updateItem(item)
+        } else {
             val item = TodoDTO(
                 name = name,
                 description = description,

@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 class ListAdapter(
     context: Context,
     private val items: List<TodoDTO>,
+    private val editListener: (TodoDTO) -> Unit,
     private val updateListener: (TodoDTO) -> Unit,
     private val deleteListener: (TodoDTO) -> Unit,
     private val time: LocalDateTime
@@ -41,11 +42,10 @@ class ListAdapter(
             DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm"))
         if (time.isAfter(todo.date)) estimatedDate.setTextColor(Color.RED) else estimatedDate.setTextColor(Color.GREEN)
 
-//        val changeState: Button = view.findViewById(R.id.item_edit)
-//        changeState.setOnClickListener {
-//            todo.isCompleted = true
-//            updateListener(todo)
-//        }
+        val edit: Button = view.findViewById(R.id.item_edit)
+        edit.setOnClickListener {
+            editListener(todo)
+        }
 
         val delete: Button = view.findViewById(R.id.delete)
         if (todo.isCompleted){

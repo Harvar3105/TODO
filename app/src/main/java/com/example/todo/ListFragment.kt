@@ -42,6 +42,7 @@ class ListFragment : Fragment() {
         val adapter = ListAdapter(
             requireContext(),
             mutableListOf(),
+            { todo -> edit(todo) },
             { todo -> update(todo) },
             { todo -> delete(todo) },
             LocalDateTime.now()
@@ -55,6 +56,10 @@ class ListFragment : Fragment() {
             adapter.addAll(todos)
             adapter.notifyDataSetChanged()
         })
+    }
+
+    private fun edit(todo: TodoDTO){
+        (activity as? MainActivity)?.switchToEdit(todo)
     }
 
     private fun update(todo: TodoDTO){
