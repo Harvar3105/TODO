@@ -3,5 +3,10 @@
     <style name="Base.Theme.TODO" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:textColorPrimary">@color/notSoWhite</item>
+        <item name="android:colorPrimary">@color/lightGrey</item>
+        <item name="backgroundColor">@color/grey</item>
+        <item name="bottomNavigationStyle">@color/lightGrey</item>
+        <item name="itemIconTint">@color/white</item>
     </style>
 </resources>

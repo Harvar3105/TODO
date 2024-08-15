@@ -8,5 +8,7 @@
     <color name="green">#008000</color>
     <color name="lime">#C3FFE7</color>
     <color name="grey">#686868</color>
+    <color name="lightGrey">#8C8C8C</color>
     <color name="notSoWhite">#EAE8E8</color>
+
 </resources>

@@ -9,4 +9,5 @@
     <string name="mark_completed">зваершить</string>
     <string name="delete">Удалить</string>
     <string name="edit">Изменить</string>
+    <string name="select_mode">Выберите тему</string>
 </resources>
